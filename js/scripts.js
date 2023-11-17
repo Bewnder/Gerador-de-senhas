@@ -33,7 +33,7 @@ const getLetterLowerCase = () => {
 
     let password = ""
 
-    const passwordLenght = +lengthInput.value
+    const passwordLength = Math.min(+lengthInput.value, 18);
 
      const generators = []
 
