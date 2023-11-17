@@ -29,46 +29,45 @@ const getLetterLowerCase = () => {
     return symbols[Math.floor(Math.random() * symbols.length)];
   };
   
- const generatePassword = (getLetterLowerCase, getLetterUpperCase, getNumber, getSymbol) => {
-
-    let password = ""
-
+  const generatePassword = (getLetterLowerCase, getLetterUpperCase, getNumber, getSymbol) => {
+    let password = "";
     const passwordLength = Math.min(+lengthInput.value, 18);
+    const generators = [];
 
-     const generators = []
-
-     if (lettersInput.checked) {
+    if (lettersInput.checked) {
         generators.push(getLetterLowerCase, getLetterUpperCase);
-      }
-    
-      if (numbersInput.checked) {
+    }
+
+    if (numbersInput.checked) {
         generators.push(getNumber);
-      }
-    
-      if (symbolsInput.checked) {
+    }
+
+    if (symbolsInput.checked) {
         generators.push(getSymbol);
-      }
-    
-      if (generators.length === 0) {
+    }
+
+    if (generators.length === 0) {
         return;
-      }
+    }
 
+    const maxIterations = Math.ceil(passwordLength / generators.length);
 
+    for (let i = 0; i < maxIterations; i++) {
+        generators.forEach(generator => {
+            const randomValue = generator();
+            if (password.length < passwordLength) {
+                password += randomValue;
+            }
+        });
+    }
 
-     for(i = 0; i < passwordLenght; i = i + generators.length) {
-        generators.forEach(() => {
-            const randomValue = 
-            generators[Math.floor(Math.random() * generators.length)]()
+    password = password.slice(0, passwordLength);
 
-            password += randomValue
-        })
-     }
+    
+    generatedPasswordElement.style.display = "block";
+    generatedPasswordElement.querySelector("h4").innerText = password;
+};
 
-     password = password.slice(0, passwordLenght)
-
-     generatedPasswordElement.style.display = "block"
-     generatedPasswordElement.querySelector("h4").innerText = password
- }
 
 
 // Eventos
